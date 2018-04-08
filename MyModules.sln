@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Threshold_Selection", "Threshold_Selection\Threshold_Selection.vcxproj", "{F4A7E773-0FA9-4C06-8D51-8CF80D54768A}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sign_Detection_And_Recognization", "Sign_Detection_And_Recognization\Sign_Detection_And_Recognization.vcxproj", "{00B383BD-AB02-4A82-94EB-BC6C5C8C0527}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{F4A7E773-0FA9-4C06-8D51-8CF80D54768A}.Release|x64.Build.0 = Release|x64
 		{F4A7E773-0FA9-4C06-8D51-8CF80D54768A}.Release|x86.ActiveCfg = Release|Win32
 		{F4A7E773-0FA9-4C06-8D51-8CF80D54768A}.Release|x86.Build.0 = Release|Win32
+		{00B383BD-AB02-4A82-94EB-BC6C5C8C0527}.Debug|x64.ActiveCfg = Debug|x64
+		{00B383BD-AB02-4A82-94EB-BC6C5C8C0527}.Debug|x64.Build.0 = Debug|x64
+		{00B383BD-AB02-4A82-94EB-BC6C5C8C0527}.Debug|x86.ActiveCfg = Debug|Win32
+		{00B383BD-AB02-4A82-94EB-BC6C5C8C0527}.Debug|x86.Build.0 = Debug|Win32
+		{00B383BD-AB02-4A82-94EB-BC6C5C8C0527}.Release|x64.ActiveCfg = Release|x64
+		{00B383BD-AB02-4A82-94EB-BC6C5C8C0527}.Release|x64.Build.0 = Release|x64
+		{00B383BD-AB02-4A82-94EB-BC6C5C8C0527}.Release|x86.ActiveCfg = Release|Win32
+		{00B383BD-AB02-4A82-94EB-BC6C5C8C0527}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
