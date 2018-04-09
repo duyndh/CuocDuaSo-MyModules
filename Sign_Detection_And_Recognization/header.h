@@ -22,16 +22,16 @@ using namespace cv::ml;
 #define LOW_HSV_BLUE Scalar(100, 100, 100)
 #define HIG_HSV_BLUE Scalar(120, 255, 255)
 
-#define LOW_HSV_RED1 Scalar(0, 120, 120)
-#define HIG_HSV_RED1 Scalar(10, 255, 255)
-#define LOW_HSV_RED2 Scalar(170, 120, 120)
+#define LOW_HSV_RED1 Scalar(0, 100, 100)
+#define HIG_HSV_RED1 Scalar(5, 255, 255)
+#define LOW_HSV_RED2 Scalar(170, 100, 100)
 #define HIG_HSV_RED2 Scalar(180, 255, 255)
 
 #define LOW_HSV_GREEN Scalar(34, 138, 12)
 #define HIG_HSV_GREEN Scalar(83, 246, 124)
 
 #define KERNEL_SIZE 5
-#define SIGN_SIZE 48
+#define SIGN_SIZE 32
 #define DIF_RATIO_SIGN_WIDTH_PER_HEIGHT 0.2
 #define DIF_RATIO_SIGN_AREA 0.1
 #define MIN_SIGN_AREA 1800

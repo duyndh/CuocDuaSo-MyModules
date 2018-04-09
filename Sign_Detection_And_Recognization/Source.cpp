@@ -69,7 +69,7 @@ int main()
 		
 		cvtColor(frame, gray, COLOR_BGR2GRAY);
 		cvtColor(frame, hsv, COLOR_BGR2HSV);
-		get_mask(hsv, mask, "blue");
+		get_mask(hsv, mask, "blue, red");
 
 		if (sign.detect(mask))
 		{

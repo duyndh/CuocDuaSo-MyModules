@@ -8,7 +8,7 @@ class Sign
 private:
 	HOGDescriptor _hog;
 	Ptr<SVM> _svm;
-	Rect _sign_roi;
+	Rect _sign_ROI;
 	int _class_id;
 
 public:

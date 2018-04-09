@@ -5,18 +5,12 @@ Sign::Sign()
 	_hog = HOGDescriptor(Size(SIGN_SIZE, SIGN_SIZE),
 		Size(SIGN_SIZE / 2, SIGN_SIZE / 2),
 		Size(SIGN_SIZE / 4, SIGN_SIZE / 4),
-		Size(SIGN_SIZE / 2, SIGN_SIZE / 2),
-		9,
-		1,
-		-1,
-		0,
-		0.2,
-		1,
-		64,
-		true);
+		Size(SIGN_SIZE / 4, SIGN_SIZE / 4),
+		9
+		);
 
 	_svm = SVM::load("svm_model.xml");
-	_sign_roi = Rect(0, 0, 0, 0);
+	_sign_ROI = Rect(0, 0, 0, 0);
 	_class_id = 0;
 }
 
@@ -28,7 +22,7 @@ bool Sign::detect(const Mat &mask)
 
 	// set default is no sign found
 	double max_area = 0;
-	_sign_roi = Rect(0, 0, 0, 0);
+	_sign_ROI = Rect(0, 0, 0, 0);
 
 	for (int i = 0; i < contours.size(); i++)
 	{
@@ -44,22 +38,22 @@ bool Sign::detect(const Mat &mask)
 				if ((1 - DIF_RATIO_SIGN_AREA < ((double)contour_area / ellipse_area)) && ((double)contour_area / ellipse_area < 1 + DIF_RATIO_SIGN_AREA))
 				{
 					// update max sign
-					_sign_roi = bound;
+					_sign_ROI = bound;
 					max_area = contour_area;
 				}
 	}
-	return _sign_roi != Rect(0, 0, 0, 0);
+	return _sign_ROI != Rect(0, 0, 0, 0);
 }
 
 void Sign::recognize(const Mat &gray)
 {
 	// no sign
-	if (_sign_roi == Rect(0, 0, 0, 0))
+	if (_sign_ROI == Rect(0, 0, 0, 0))
 	{
 		_class_id = NO_SIGN;
 	}
 	// crop
-	Mat sign_gray = gray(_sign_roi);
+	Mat sign_gray = gray(_sign_ROI);
 	resize(sign_gray, sign_gray, cv::Size(SIGN_SIZE, SIGN_SIZE));
 
 	classify(sign_gray);
