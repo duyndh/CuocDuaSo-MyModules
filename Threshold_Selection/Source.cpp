@@ -1,80 +1,102 @@
-#include <iostream>
+#include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/highgui/highgui.hpp>
-#include <opencv2/core/core.hpp>
 #include <opencv2/opencv.hpp>
+#include <opencv2/core/cuda.hpp>
+#include <opencv2/ml.hpp>
 
-using namespace std;
+#include <iostream>
+
 using namespace cv;
+using namespace std;
+using namespace cv::ml;
 
-void on_low_r_thresh_trackbar(int, void *);
-void on_high_r_thresh_trackbar(int, void *);
-void on_low_g_thresh_trackbar(int, void *);
-void on_high_g_thresh_trackbar(int, void *);
-void on_low_b_thresh_trackbar(int, void *);
-void on_high_b_thresh_trackbar(int, void *);
-int low_r = 30, low_g = 30, low_b = 30;
-int high_r = 100, high_g = 100, high_b = 100;
+#define FRAME_WIDTH 320
+#define FRAME_HEIGHT 240
+
+int low_h = 30, low_s = 30, low_v = 30;
+int high_h = 100, high_s = 100, high_v = 100;
+
+void hist_equalize(Mat &img)
+{
+	Mat ycrcb;
+	cvtColor(img, ycrcb, CV_BGR2YCrCb);
+
+	vector<Mat> chanels(3);
+	split(ycrcb, chanels);
+
+	Ptr<CLAHE> clahe = createCLAHE(2.0, Size(8, 8));
+	clahe->apply(chanels[0], chanels[0]);
+
+	merge(chanels, ycrcb);
+	cvtColor(ycrcb, img, CV_YCrCb2BGR);
+}
+
+void on_low_h_thresh_trackbar(int, void *)
+{
+	low_h = min(high_h - 1, low_h);
+	setTrackbarPos("Low H", "Object Detection", low_h);
+}
+
+void on_high_h_thresh_trackbar(int, void *)
+{
+	high_h = max(high_h, low_h + 1);
+	setTrackbarPos("High H", "Object Detection", high_h);
+}
+
+void on_low_s_thresh_trackbar(int, void *)
+{
+	low_s = min(high_s - 1, low_s);
+	setTrackbarPos("Low S", "Object Detection", low_s);
+}
+
+void on_high_s_thresh_trackbar(int, void *)
+{
+	high_s = max(high_s, low_s + 1);
+	setTrackbarPos("High G", "Object Detection", high_s);
+}
+
+void on_low_v_thresh_trackbar(int, void *)
+{
+	low_v = min(high_v - 1, low_v);
+	setTrackbarPos("Low B", "Object Detection", low_v);
+}
+
+void on_high_v_thresh_trackbar(int, void *)
+{
+	int high_v = max(high_v, low_v + 1);
+	setTrackbarPos("High B", "Object Detection", high_v);
+}
 
 int main()
 {
-	Mat frame, frame_threshold;
+	Mat frame, hsv, mask;
 	VideoCapture cap(0);
-	namedWindow("Video Capture", WINDOW_NORMAL);
-	namedWindow("Object Detection", WINDOW_NORMAL);
-	//-- Trackbars to set thresholds for RGB values
-	createTrackbar("Low R", "Object Detection", &low_r, 255, on_low_r_thresh_trackbar);
-	createTrackbar("High R", "Object Detection", &high_r, 255, on_high_r_thresh_trackbar);
-	createTrackbar("Low G", "Object Detection", &low_g, 255, on_low_g_thresh_trackbar);
-	createTrackbar("High G", "Object Detection", &high_g, 255, on_high_g_thresh_trackbar);
-	createTrackbar("Low B", "Object Detection", &low_b, 255, on_low_b_thresh_trackbar);
-	createTrackbar("High B", "Object Detection", &high_b, 255, on_high_b_thresh_trackbar);
 
+	namedWindow("Threshold Selection", WINDOW_NORMAL);
+
+	createTrackbar("Low H", "Threshold Selection", &low_h, 255, on_low_h_thresh_trackbar);
+	createTrackbar("High H", "Threshold Selection", &high_h, 255, on_high_h_thresh_trackbar);
+	createTrackbar("Low S", "Threshold Selection", &low_s, 255, on_low_s_thresh_trackbar);
+	createTrackbar("High S", "Threshold Selection", &high_s, 255, on_high_s_thresh_trackbar);
+	createTrackbar("Low V", "Threshold Selection", &low_v, 255, on_low_v_thresh_trackbar);
+	createTrackbar("High V", "Threshold Selection", &high_v, 255, on_high_v_thresh_trackbar);
+	
 	while ((char)waitKey(1) != 'q')
 	{
 		cap >> frame;
 		if (frame.empty())
 			break;
-		//-- Detect the object based on RGB Range Values
-		inRange(frame, Scalar(low_b, low_g, low_r), Scalar(high_b, high_g, high_r), frame_threshold);
-		//-- Show the frames
-		imshow("Video Capture", frame);
-		imshow("Object Detection", frame_threshold);
-	}
+
+		resize(frame, frame, Size(FRAME_WIDTH, FRAME_HEIGHT));
+		hist_equalize(frame);
+
+		cvtColor(frame, hsv, COLOR_BGR2HSV);
+
+		inRange(hsv, Scalar(low_h, low_s, low_v), Scalar(high_h, high_s, high_v), mask);
+		
+		imshow("frame", frame);
+		imshow("mask", mask);
+	}	
+
 	return 0;
-}
-
-void on_low_r_thresh_trackbar(int, void *)
-{
-	low_r = min(high_r - 1, low_r);
-	setTrackbarPos("Low R", "Object Detection", low_r);
-}
-
-void on_high_r_thresh_trackbar(int, void *)
-{
-	high_r = max(high_r, low_r + 1);
-	setTrackbarPos("High R", "Object Detection", high_r);
-}
-
-void on_low_g_thresh_trackbar(int, void *)
-{
-	low_g = min(high_g - 1, low_g);
-	setTrackbarPos("Low G", "Object Detection", low_g);
-}
-
-void on_high_g_thresh_trackbar(int, void *)
-{
-	high_g = max(high_g, low_g + 1);
-	setTrackbarPos("High G", "Object Detection", high_g);
-}
-
-void on_low_b_thresh_trackbar(int, void *)
-{
-	low_b = min(high_b - 1, low_b);
-	setTrackbarPos("Low B", "Object Detection", low_b);
-}
-
-void on_high_b_thresh_trackbar(int, void *)
-{
-	high_b = max(high_b, low_b + 1);
-	setTrackbarPos("High B", "Object Detection", high_b);
 }

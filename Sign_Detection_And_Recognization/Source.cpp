@@ -1,9 +1,8 @@
-#include "header.h"
 #include "sign.h"
 
 int main()
 {
-	Mat frame, frame_threshold;
+	Mat frame;
 	VideoCapture cap(0);
 	
 	Mat mask(FRAME_HEIGHT, FRAME_WIDTH, CV_8UC1);
@@ -15,20 +14,21 @@ int main()
 	double freq = getTickFrequency();
 
 	while ((char)waitKey(1) != 'q')
-	{
+	{		
 		st = getTickCount();
 
 		cap >> frame;
 		if (frame.empty())
 			break;
+
 		resize(frame, frame, Size(FRAME_WIDTH, FRAME_HEIGHT));
-		
 		hist_equalize(frame);
 		
 		cvtColor(frame, gray, COLOR_BGR2GRAY);
 		cvtColor(frame, hsv, COLOR_BGR2HSV);
+		
 		get_mask(hsv, mask, "blue red");
-
+		
 		if (sign.detect(mask))
 		{
 			sign.recognize(gray);
@@ -44,13 +44,12 @@ int main()
 			}
 		}
 
-		//imshow("hsv", hsv);
 		imshow("frame", frame);
 		imshow("mask", mask);
-		
+
 		et = getTickCount();
 		fps = 1.0 / ((et - st) / freq);
-		cerr << "FPS: " << fps << '\n';		
+		cerr << "FPS: " << fps << '\n';
 	}
 
 	return 0;

@@ -8,10 +8,6 @@
 #include <opencv2/ml.hpp>
 
 #include <iostream>
-#include <string>
-#include <vector>
-#include <math.h>
-#include <time.h>
 
 using namespace cv;
 using namespace std;
@@ -31,7 +27,7 @@ using namespace cv::ml;
 #define LOW_HSV_GREEN Scalar(34, 80, 100)
 #define HIG_HSV_GREEN Scalar(83, 255, 255)
 
-#define KERNEL_SIZE 5
+#define KERNEL_SIZE 3
 #define SIGN_SIZE 32
 #define DIF_RATIO_SIGN_WIDTH_PER_HEIGHT 0.2
 #define DIF_RATIO_SIGN_AREA 0.1

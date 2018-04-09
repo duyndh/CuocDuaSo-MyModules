@@ -1,14 +1,5 @@
 #include "header.h"
 
-/*
-enum SIGN_INDEX
-{
-	NO_SIGN  = 0,
-	SIGN_LEFT = 1,
-	SIGN_RIGHT = 2,
-	SIGN_STOP = 3
-};*/
-
 // WARNING: should only be used once because of ycrcb equalization
 void get_mask(const Mat &hsv, Mat &mask, string colors)
 {
