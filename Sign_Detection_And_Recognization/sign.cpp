@@ -73,7 +73,7 @@ void Sign::classify(const Mat &sign_gray)
 		_class_id = NO_SIGN;
 }
 
-int Sign::get_class_id()
+int Sign::getClassID()
 {
 	return _class_id;
 }

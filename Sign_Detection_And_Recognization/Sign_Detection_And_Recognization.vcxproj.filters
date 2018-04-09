@@ -21,6 +21,9 @@
     <ClCompile Include="sign.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="header.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sign.h">

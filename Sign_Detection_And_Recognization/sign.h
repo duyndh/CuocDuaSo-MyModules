@@ -16,7 +16,7 @@ public:
 	bool detect(const Mat &mask);
 	void recognize(const Mat &gray);
 	void classify(const Mat &gray_sign);
-	int get_class_id();
+	int getClassID();
 };
 
 #endif
